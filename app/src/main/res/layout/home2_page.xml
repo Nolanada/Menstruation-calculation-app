@@ -6,35 +6,32 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/Firstd"
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="date"
-        tools:layout_editor_absoluteX="43dp"
-        tools:layout_editor_absoluteY="89dp"
-        tools:ignore="MissingConstraints" />
+        android:text="Next 3 Periods"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
-    <EditText
-        android:id="@+id/Duration"
+    <TextView
+        android:id="@+id/nextPeriod1TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="number"
-        tools:layout_editor_absoluteX="37dp"
-        tools:layout_editor_absoluteY="194dp"
-        tools:ignore="MissingConstraints"/>
+        android:layout_marginTop="16dp"
+        android:textSize="18sp" />
 
-    <EditText
-        android:id="@+id/length"
+    <TextView
+        android:id="@+id/nextPeriod2TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="number"
-        tools:layout_editor_absoluteX="35dp"
-        tools:layout_editor_absoluteY="295dp"
-        tools:ignore="MissingConstraints"/>
+        android:layout_marginTop="8dp"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/nextPeriod3TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"/>
 
     <Button
         android:id="@+id/ok"

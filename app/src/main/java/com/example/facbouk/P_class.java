@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -46,7 +47,7 @@ public class P_class extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                calculateMenstrualCycle2();
+                calculateNextThreePeriods();
 
             }
         });
@@ -76,18 +77,6 @@ public class P_class extends AppCompatActivity {
                 followingPeriodCalendar.add(Calendar.DAY_OF_YEAR, averageCycleLength);
                 Date followingPeriodDate = followingPeriodCalendar.getTime();
 
-                /*String result = sdf.format(sdf.format(lastPeriodDate));
-                String next = result + sdf.format(periodDuration);
-                String next0 = next + averageCycleLength;
-                String next1 = next0 + sdf.format(nextPeriodDate);
-                String next2 = next1 + sdf.format(followingPeriodDate);*/
-
-                /*Intent intent0 = new Intent(P_class.this, Result.class);
-                intent0.putExtra("keyFirst", next1);
-                intent0.putExtra("keyLen", next2);
-                startActivity(intent0);
-                */
-
                 String resultText;
                 String result1, result2, result3, result4 = null;
                 String resultText1 = null;
@@ -95,69 +84,44 @@ public class P_class extends AppCompatActivity {
                 resultText += "Your last period lasted for " + periodDuration + " days\n";
                 resultText += "Your average menstrual cycle length is " + averageCycleLength + " days\n";
                 resultText1 = sdf.format(nextPeriodDate) + "\n";
-                result1 = sdf.format(followingPeriodDate);
+                result1 = sdf.format(followingPeriodDate);/*
                 result2 = result1 + sdf.format(followingPeriodDate);
                 result3 = result2 + sdf.format(followingPeriodDate);
-                result4 =  result3 + sdf.format(followingPeriodDate);
+                result4 =  result3 + sdf.format(followingPeriodDate);*/
                 answer.setText(resultText1);
 
             }
-        private void calculateMenstrualCycle2() {
-            String Firstday = firstday.getText().toString();
-            int periodDuration = Integer.parseInt(lenghtper.getText().toString());
-            int averageCycleLength = Integer.parseInt(Avrlen.getText().toString());
 
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Date lastPeriodDate;
-            try {
-                lastPeriodDate = sdf.parse(Firstday);
-            } catch (ParseException e) {
-                e.printStackTrace();
-                return;
-            }
+    private void calculateNextThreePeriods() {
+        String lastPeriodDateStr =firstday.getText().toString();
+        int averageCycleLength = Integer.parseInt(Avrlen.getText().toString());
 
-            Calendar nextPeriodCalendar = Calendar.getInstance();
-            nextPeriodCalendar.setTime(lastPeriodDate);
-            nextPeriodCalendar.add(Calendar.DAY_OF_YEAR, averageCycleLength);
-            Date nextPeriodDate = nextPeriodCalendar.getTime();
-
-            Calendar followingPeriodCalendar = Calendar.getInstance();
-            followingPeriodCalendar.setTime(nextPeriodDate);
-            followingPeriodCalendar.add(Calendar.DAY_OF_YEAR, averageCycleLength);
-            Date followingPeriodDate = followingPeriodCalendar.getTime();
-
-                /*String result = sdf.format(sdf.format(lastPeriodDate));
-                String next = result + sdf.format(periodDuration);
-                String next0 = next + averageCycleLength;
-                String next1 = next0 + sdf.format(nextPeriodDate);
-                String next2 = next1 + sdf.format(followingPeriodDate);*/
-
-                /*Intent intent0 = new Intent(P_class.this, Result.class);
-                intent0.putExtra("keyFirst", next1);
-                intent0.putExtra("keyLen", next2);
-                startActivity(intent0);
-                */
-
-            String resultText;
-            String result1, result2, result3= null;
-            String next1, next2, next3;
-            String resultText1 = null;
-            resultText = sdf.format(lastPeriodDate) ;
-            resultText += "Your last period lasted for " + periodDuration + " days\n";
-            resultText += "Your average menstrual cycle length is " + averageCycleLength + " days\n";
-            resultText1 = sdf.format(nextPeriodDate) + "\n";
-            result1 = sdf.format(followingPeriodDate);
-            result2 = result1 + sdf.format(followingPeriodDate);
-            result3 = result2 + sdf.format(followingPeriodDate);
-            next1 =  result3 + sdf.format(followingPeriodDate);
-            next2 = next1+ sdf.format(followingPeriodDate);
-            next3 = next2+ sdf.format(followingPeriodDate);
-            answer.setText(resultText1);
-            Intent intent0 = new Intent(P_class.this, Result.class);
-            intent0.putExtra("keyFirst", next1);
-            intent0.putExtra("keysecond", next2);
-            intent0.putExtra("keythird", next2);
-            startActivity(intent0);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date lastPeriodDate;
+        try {
+            lastPeriodDate = sdf.parse(lastPeriodDateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return;
         }
+
+        Calendar nextPeriodCalendar = Calendar.getInstance();
+        nextPeriodCalendar.setTime(lastPeriodDate);
+
+        // Store the next 3 period start dates in an ArrayList
+        ArrayList<String> nextThreePeriods = new ArrayList<>();
+
+        for (int i = 0; i < 3; i++) {
+            nextPeriodCalendar.add(Calendar.DAY_OF_YEAR, averageCycleLength);
+            Date nextPeriodStartDate = nextPeriodCalendar.getTime();
+            String nextPeriodStartDateStr = sdf.format(nextPeriodStartDate);
+            nextThreePeriods.add(nextPeriodStartDateStr);
+        }
+
+        // Pass the next 3 period start dates to the next activity
+        Intent intent = new Intent(this, Result.class);
+        intent.putStringArrayListExtra("nextThreePeriods", nextThreePeriods);
+        startActivity(intent);
+    }
 }
 
